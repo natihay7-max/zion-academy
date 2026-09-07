@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zion Academy (HU)</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --text-color: #f8fafc;
+      --accent-color: #3b82f6;
+      --accent-hover: #2563eb;
+    }
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+      color: var(--accent-color);
+    }
+    .lang-switch {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .btn-lang {
+      background: #334155;
+      color: #fff;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-lang.active {
+      background: var(--accent-color);
+    }
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 16px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+    .btn-primary {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      width: 100%;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .btn-primary:active {
+      background-color: var(--accent-hover);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1 id="app-title">Zion Academy (HU)</h1>
+    <p id="app-subtitle" style="color: #94a3b8; font-size: 14px; margin-top: 4px;">Hawassa University Freshman Portal</p>
+    
+    <div class="lang-switch">
+      <button class="btn-lang active" id="btn-en" onclick="setLanguage('en')">English</button>
+      <button class="btn-lang" id="btn-am" onclick="setLanguage('am')">አማርኛ</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="welcome-title">Welcome Student 👋</h3>
+    <p id="welcome-desc" style="font-size: 14px; color: #cbd5e1;">Access your freshman course notes, practice tests, and track your rank on the leaderboard!</p>
+    <button class="btn-primary" id="btn-start" onclick="alert('System Ready!')">Start Studying / ጀምር</button>
+  </div>
+
+  <script>
+    // Initialize Telegram WebApp
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+    }
+
+    // Connect to Supabase
+    const SUPABASE_URL = "https://blavrwzrgllwnrvazjrb.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_68K1h-CXdjVKdJR8s3hZCw_eLscjBMe";
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Language Toggle
+    let currentLang = 'en';
+
+    const translations = {
+      en: {
+        title: "Zion Academy (HU)",
+        subtitle: "Hawassa University Freshman Portal",
+        welcome: "Welcome Student 👋",
+        desc: "Access your freshman course notes, practice tests, and track your rank on the leaderboard!",
+        btn: "Start Studying"
+      },
+      am: {
+        title: "ጽዮን አካዳሚ (HU)",
+        subtitle: "የሀዋሳ ዩኒቨርሲቲ የፍሬሽማን መማሪያ",
+        welcome: "እንኳን ደህና መጡ 👋",
+        desc: "የፍሬሽማን ትምህርት ማስታወሻዎችን፣ ልምምድ ፈተናዎችን እና የደረጃ ሰንጠረዥዎን እዚህ ያግኙ!",
+        btn: "ትምህርት ጀምር"
+      }
+    };
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-am').classList.toggle('active', lang === 'am');
+
+      document.getElementById('app-title').innerText = translations[lang].title;
+      document.getElementById('app-subtitle').innerText = translations[lang].subtitle;
+      document.getElementById('welcome-title').innerText = translations[lang].welcome;
+      document.getElementById('welcome-desc').innerText = translations[lang].desc;
+      document.getElementById('btn-start').innerText = translations[lang].btn;
+    }
+  </script>
+</body>
+  </html>
+  
